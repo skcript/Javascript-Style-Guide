@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Javascript-style-guide by skcript</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Javascript-style-guide</h1>
+        <h2>Skcript&#39;s Javascript Style Guide</h2>
+        <a href="https://github.com/skcript/Javascript-Style-Guide" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="javascript-style-guide" class="anchor" href="#javascript-style-guide" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Javascript-Style-Guide</h1>
+
+<p>Skcript's Javascript Style Guide. This repo is meant to be subjective, and has been created based on our personal learnings. It's heavily inspired by <a href="https://github.com/airbnb/javascript">AirBnb’s Javascript Style Guide</a>. In fact, the below are modifications/additions to it. </p>
+
+<h3>
+<a id="common" class="anchor" href="#common" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Common</h3>
+
+<ul>
+<li>Two spaces are used everywhere.</li>
+<li>Absolutely no console.logs in production.</li>
+<li>Don’t save references to this. Use bind if you are unable to access React's scope in a function.</li>
+</ul>
+
+<pre><code>// bad
+function foo() {
+  const self = this;
+  return function () {
+    console.log(self);
+  };
+}
+
+
+// bad
+function foo() {
+  const that = this;
+  return function () {
+    console.log(that);
+  };
+}
+
+
+// good
+function foo() {
+  return () =&gt; {
+    console.log(this);
+  };
+}
+</code></pre>
+
+<ul>
+<li>If the property/method is a boolean, use isVal() or hasVal()</li>
+</ul>
+
+<pre><code>// bad
+if (!dragon.age()) {
+  return false;
+}
+
+
+// good
+if (!dragon.hasAge()) {
+  return false;
+}
+</code></pre>
+
+<ul>
+<li>Do not add spaces inside brackets and curly braces.</li>
+</ul>
+
+<pre><code>// bad
+const foo = [  1, 2, 3  ];
+const foo = { clark: 'kent' };
+
+// good
+const foo = [1, 2, 3];
+const foo = {clark: 'kent'};
+</code></pre>
+
+<h3>
+<a id="variables" class="anchor" href="#variables" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Variables</h3>
+
+<h4>
+<a id="naming-conventions" class="anchor" href="#naming-conventions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Naming Conventions</h4>
+
+<ul>
+<li>Variables for values follow snake case.</li>
+</ul>
+
+<pre><code>var main_content;
+var selected_image_id;
+</code></pre>
+
+<ul>
+<li>Variables for functions follow camel case.</li>
+</ul>
+
+<pre><code>var showFiles = function showFiles(file) {
+  // Logic...
+}
+</code></pre>
+
+<ul>
+<li>Keys defined in objects follow camel case.</li>
+</ul>
+
+<pre><code>var info = {
+  companyName: "Skcript",
+  officeLocation: "Chennai"
+};
+</code></pre>
+
+<ul>
+<li>Classnames follow pascal case.</li>
+</ul>
+
+<pre><code>var TaskShow = React.createClass({});
+Prefix jQuery object variables with a $
+
+// bad
+const sidebar = $('.sidebar');
+
+
+// good
+const $sidebar = $('.sidebar');
+
+
+// good
+const $sidebarBtn = $('.sidebar-btn');
+</code></pre>
+
+<h4>
+<a id="good-practices" class="anchor" href="#good-practices" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Good Practices</h4>
+
+<ul>
+<li>All variables must be defined at the top of the function before using them.</li>
+<li>Assign default values for variables which require them.</li>
+<li>Define variables from external libraries first.</li>
+<li>Logically separate variable groups with new lines.</li>
+<li>Do no use reserved variable names.</li>
+<li>All variable definitions must end with a semicolon.</li>
+</ul>
+
+<pre><code>render: function() {
+  var Modal = ReactBootstrap.Modal;
+  let count = 0;
+  let multiplier = 5;
+
+  if (this.props.sample == 10) {
+    count = multiplier x this.props.sample;
+  }
+}
+</code></pre>
+
+<ul>
+<li>Objects are defined with their keys staring in a new line and then two spaces.</li>
+</ul>
+
+<pre><code>var info = {
+  companyName: "Skcript",
+  officeLocation: "Chennai"
+};
+</code></pre>
+
+<h4>
+<a id="using-var-const-and-let" class="anchor" href="#using-var-const-and-let" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using var, const and let</h4>
+
+<ul>
+<li>Use const for all of your references that do not change during the cycle.</li>
+</ul>
+
+<p><strong>Why?</strong> This ensures that you can’t reassign your references, which can lead to bugs and difficult to comprehend code.</p>
+
+<pre><code>// bad
+var a = 1;
+var b = 2;
+
+
+// good
+const a = 1;
+const b = 2;
+</code></pre>
+
+<ul>
+<li>If you must reassign references, use let instead of var</li>
+</ul>
+
+<p><strong>Why?</strong> let is block-scoped rather than function-scoped like var.</p>
+
+<pre><code>// bad
+var count = 1;
+if (true) {
+  count += 1;
+}
+
+
+// good, use the let.
+let count = 1;
+if (true) {
+  count += 1;
+}
+</code></pre>
+
+<p><em>Note that both let and const are block-scoped.</em></p>
+
+<pre><code>// const and let only exist in the blocks they are defined in.
+{
+  let a = 1;
+  const b = 1;
+}
+console.log(a); // ReferenceError
+console.log(b); // ReferenceError
+</code></pre>
+
+<h3>
+<a id="react-component-variables" class="anchor" href="#react-component-variables" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>React Component Variables</h3>
+
+<ul>
+<li>Props passed to the component are each defined in a new line, with a two space indent.</li>
+<li>Closing tags for components end on the same line as the last prop.</li>
+<li>If there are less than 3 props, pass them along the same line.</li>
+</ul>
+
+<pre><code>// bad
+  &lt;UserThumbnail user={user} className="small" admin={true} color= "SpaceGray" /&gt;
+
+// bad
+&lt;UserThumbnail
+                                 user={user}
+                                 className="small"
+                                 admin={true}
+                                 color= "SpaceGray"
+/&gt;
+
+// bad
+&lt;UserThumbnail user={user}
+                                 className="small"
+                                 admin={true}
+                                 color= "SpaceGray"
+/&gt;
+
+// good
+&lt;UserThumbnail
+  user={user}
+  className="small"
+  admin={true}
+  color= "SpaceGray" /&gt;
+</code></pre>
+
+<h3>
+<a id="functions" class="anchor" href="#functions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Functions</h3>
+
+<h4>
+<a id="naming-conventions-1" class="anchor" href="#naming-conventions-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Naming Conventions</h4>
+
+<ul>
+<li>Always use camelCase for function names.</li>
+<li>Avoid single letter names. Be descriptive with your naming.</li>
+</ul>
+
+<h4>
+<a id="good-practices-1" class="anchor" href="#good-practices-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Good Practices</h4>
+
+<ul>
+<li>Each function must be atomic. I.E, must do only a single thing.</li>
+<li>All functions must be DRY in nature. (Avoid repetition)</li>
+<li>Add comments above the function name to describe it’s purpose.</li>
+<li>If functions are complex in nature, add comments within also.</li>
+<li>Map functions should generally be restricted to taking one parameter.</li>
+<li>Map functions should be named in plural case, and their parameter in the singular.</li>
+</ul>
+
+<pre><code>var showAssignees = function showAssignees(assignee) {
+  return &lt;li key={assignee.id}&gt;{assignee.name}&lt;/li&gt;;
+}
+</code></pre>
+
+<h4>
+<a id="syntax" class="anchor" href="#syntax" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Syntax</h4>
+
+<ul>
+<li>Functions names are preceded with a <code>:</code> and the name function.</li>
+</ul>
+
+<pre><code>showDate: function()
+</code></pre>
+
+<ul>
+<li>Single space is given after just before the <code>{</code> starts.</li>
+</ul>
+
+<pre><code>// bad
+showDate: function(){
+  // Logic
+},
+
+// good
+showDate: function() {
+  // Logic
+},
+</code></pre>
+
+<h3>
+<a id="conditionals" class="anchor" href="#conditionals" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Conditionals</h3>
+
+<h4>
+<a id="good-practice" class="anchor" href="#good-practice" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Good Practice</h4>
+
+<ul>
+<li>Leave a blank line after blocks and before the next statement.</li>
+</ul>
+
+<pre><code>// bad
+if (foo) {
+  return bar;
+}
+return baz;
+
+
+// good
+if (foo) {
+  return bar;
+}
+
+
+return baz;
+</code></pre>
+
+<ul>
+<li>Do not pad your blocks with blank lines.</li>
+</ul>
+
+<pre><code>// bad
+function bar() {
+
+
+  console.log(foo);
+
+
+}
+
+
+// also bad
+if (baz) {
+
+
+  console.log(qux);
+} else {
+  console.log(foo);
+
+
+}
+
+
+// good
+function bar() {
+  console.log(foo);
+}
+
+
+// good
+if (baz) {
+  console.log(qux);
+} else {
+  console.log(foo);
+}
+</code></pre>
+
+<h4>
+<a id="syntax-1" class="anchor" href="#syntax-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Syntax</h4>
+
+<ul>
+<li>Else statements immediately precede the if statements. On the same line.</li>
+</ul>
+
+<pre><code>// bad
+if (baz) {
+  console.log(qux);
+}
+else {
+  console.log(foo);
+}
+
+// good
+if (baz) {
+  console.log(qux);
+} else {
+  console.log(foo);
+}
+</code></pre>
+
+<ul>
+<li>If comparing array length, more than once. Save the length to a variable.</li>
+</ul>
+
+<pre><code>// bad
+if (this.props.users.length == 0) {
+  console.log("0 users");
+} else if (this.props.users.length == 1) {
+  console.log("1 user");
+} else {
+  console.log(this.props.users.length + " users");
+}
+
+// good
+var length = this.props.users.length;
+
+if (length == 0) {
+  console.log("0 users");
+} else if (length == 1) {
+  console.log("1 user");
+} else {
+  console.log(length + " users");
+}
+</code></pre>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/skcript/Javascript-Style-Guide/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/skcript/Javascript-Style-Guide/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/skcript/Javascript-Style-Guide"></a> is maintained by <a href="https://github.com/skcript">skcript</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
